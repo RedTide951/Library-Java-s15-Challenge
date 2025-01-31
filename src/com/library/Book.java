@@ -14,6 +14,7 @@ public class Book {
     private double edition;
     private LocalDate borrowDate;
     private LocalDate purchaseDate;
+    private LocalDate returnDate;
     private Reader currentOwner;
 
     public Book(long book_id, Author author, String name, double price, BookStatus status, double edition) {
@@ -91,6 +92,10 @@ public class Book {
         this.price = price;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
     public void setStatus(BookStatus status) {
         this.status = status;
     }
@@ -99,15 +104,19 @@ public class Book {
         this.edition = edition;
     }
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
     public void setCurrentOwner(Reader currentOwner) {
         this.currentOwner = currentOwner;
     }
 
+    public void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
     public void setBorrowDate(LocalDate borrowDate) {
         this.borrowDate = borrowDate;
+    }
+
+    public void setReturnDate(LocalDate date) {
+        this.returnDate = date;
     }
 }
