@@ -1,9 +1,8 @@
-package com.library;
+package com.library.books;
 import com.library.person.Author;
 import com.library.person.Reader;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Book {
     private long book_id;
@@ -116,7 +115,13 @@ public class Book {
         this.borrowDate = borrowDate;
     }
 
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
     public void setReturnDate(LocalDate date) {
         this.returnDate = date;
     }
+
+
 }
