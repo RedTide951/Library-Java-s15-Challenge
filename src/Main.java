@@ -1,6 +1,7 @@
 import com.library.books.Book;
 import com.library.books.BookStatus;
 import com.library.Library;
+import com.library.books.BookTypes;
 import com.library.person.Author;
 import com.library.person.Librarian;
 import com.library.person.MembershipTypes;
@@ -9,6 +10,7 @@ import com.library.person.Reader;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
 
         // Author test
@@ -19,15 +21,18 @@ public class Main {
         Book testBook2 = new Book(13, testAuthor ,"testBook2", 15, BookStatus.AVAILABLE,2.0);
         Book testBook3 = new Book(14, testAuthor ,"testBook3", 15, BookStatus.AVAILABLE,2.0);
         Book testBook4 = new Book(15, testAuthor ,"testBook4", 15, BookStatus.AVAILABLE,2.0);
-        Book testBook5 = new Book(16, testAuthor ,"testBook4", 15, BookStatus.AVAILABLE,2.0);
+        Book testBook5 = new Book(16, testAuthor ,"testBook5", 15, BookStatus.AVAILABLE,2.0);
         testAuthor.showBooks();
         System.out.println("******************");
 
         // Book Tests
         System.out.println("---Book Tests---");
+        Book testBook6 = new Book(16, testAuthor ,"testBook6", 13, BookStatus.AVAILABLE,2.0, BookTypes.JOURNAL);
         System.out.println("Display Book: " + testBook1.displayBook());
-        System.out.println("get Bookid: " + testBook2.getBook_id());
+        System.out.println("get Book id: " + testBook2.getBook_id());
         System.out.println("Get Author: " + testBook2.getAuthor());
+        System.out.println("Get price: " + testBook2.getPrice());
+
         System.out.println("******************");
 
         // Reader Tests
@@ -55,21 +60,21 @@ public class Main {
         System.out.println("---Librarian Tests---");
         Librarian librarian1 = new Librarian("Librarian1", "password");
         librarian1.searchBook(testBook2, library1);
-        librarian1.verifyMembership(ali, MembershipTypes.STUDENT, "35260 / ali's adress", 05325552535, library1);
+        librarian1.verifyMembership(ali, MembershipTypes.STUDENT, "35260 / ali's address", 05325552535, library1);
         librarian1.issueBook(testBook1, ali, library1);
         librarian1.issueBook(testBook2, ali, library1);
         librarian1.issueBook(testBook4, ali, library1);
         library1.addNewBook(testBook4);
         librarian1.issueBook(testBook4, ali, library1);
+
+        // Membership tests
+        System.out.println("---Membership Tests---");
         ali.showBorrowedBooks();
         ali.returnBook(testBook5);
         ali.returnBook(testBook1);
         ali.returnBook(testBook2);
         ali.returnBook(testBook4);
         System.out.println("******************");
-
         
-
-
     }
 }

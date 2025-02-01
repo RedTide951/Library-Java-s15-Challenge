@@ -19,7 +19,6 @@ public class MemberRecord {
     private ArrayList<Book> borrowedBooks = new ArrayList<Book>();
 
 
-
     protected MemberRecord(String username, MembershipTypes type, String address, int phoneNumber) {
         this.username = username;
         this.readerId = idCounter.getAndIncrement();

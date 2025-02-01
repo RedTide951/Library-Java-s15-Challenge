@@ -85,6 +85,22 @@ public class Book {
         return this.currentOwner;
     }
 
+   public double getPrice() {
+        return price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getEdition() {
+        return edition;
+    }
+
+    public BookTypes getBookType() {
+        return bookType;
+    }
+
     public void changeOwner(Reader newOwner) {
         this.currentOwner = newOwner;
     }
@@ -105,9 +121,7 @@ public class Book {
         this.price = price;
     }
 
-    public double getPrice() {
-        return price;
-    }
+
 
     public void setStatus(BookStatus status) {
         this.status = status;
@@ -131,6 +145,10 @@ public class Book {
 
     public LocalDate getReturnDate() {
         return returnDate;
+    }
+
+    public void setBookType(BookTypes bookType) {
+        this.bookType = bookType;
     }
 
     public void setReturnDate(LocalDate date) {
