@@ -22,6 +22,10 @@ public class Library {
 
     // add remove, reader & books
     public void addNewBook(Book book) {
+        if (booksList.containsKey(book.getBook_id())) {
+            System.out.println("A book with this ID already exists. Please check. Existing book: " + booksList.get(book.getBook_id()) );
+            return;
+        }
         booksList.put(book.getBook_id(), book);
         System.out.println(book.getTitle() + " has been added to " + this.getLibraryName());
     }
@@ -31,7 +35,7 @@ public class Library {
             return;
         }
         readersList.put(reader.getMemberRecord().getReaderId(), reader);
-        System.out.println("New member " + reader.whoYouAre() + " successfully added");
+        System.out.println(reader.whoYouAre() + " added to " + libraryName + "'s member list");
     }
     public void removeReader(long readerId) {
         if (readersList.containsKey(readerId)) {
@@ -73,7 +77,7 @@ public class Library {
         book.changeOwner(buyer);
         book.setStatus(BookStatus.UNAVAILABLE);
         booksList.remove(book.getBook_id());
-        buyer.receiveBook(book);
+        buyer.purchaseBook(book);
         System.out.println("The book " + book.getTitle() + " has been sold to " + buyer.whoYouAre());
     }
     public void lendBook(Book book, Reader borrower) {
@@ -92,8 +96,7 @@ public class Library {
         book.changeOwner(borrower);
         book.setStatus(BookStatus.UNAVAILABLE);
         book.setBorrowDate(LocalDate.now());
-        borrower.receiveBook(book);
-        borrower.getMemberRecord().addToBorrowedBooksList(book);
+        borrower.borrowBook(book, this);
     }
     public void takeBookBack(Book book, Reader reader) {
         if (!readersList.containsKey(reader.getMemberRecord().getReaderId())) {
@@ -114,7 +117,6 @@ public class Library {
         booksList.put(book.getBook_id(), book);
         reader.getMemberRecord().removeFromBorrowedBooksList(book);
     }
-
 
     public String getLibraryName() {
         return libraryName;

@@ -14,23 +14,29 @@ public class Reader extends Person{
         System.out.println("New Reader " + name);
     }
 
-    public void purchaseBook(Library library, Book book) {
-        library.sellBook(book, this);
+    public void purchaseBook(Book book) {
+        ownedBooks.add(book);
+        System.out.println(book.getTitle() + " has been purchased by " + this.whoYouAre());
     }
-    public void requestBorrowBook(Library library, Book book) {
-        library.lendBook(book, this);
-    }
-    public void receiveBook(Book newBook) {
-        ownedBooks.add(newBook);
-        System.out.println(newBook.getTitle() + " has been received by " + this.whoYouAre());
+
+    public void borrowBook(Book book, Library library) {
+        getMemberRecord().addToBorrowedBooksList(book);
     }
     public void loseBook(Book book) {
         ownedBooks.remove(book);
         System.out.println("Reader " + this.whoYouAre() + " no longer owns the book: " + book.getTitle());
     }
-    public void returnBook(Book book, Library library) {
-        library.takeBookBack(book, this);
+
+    public void returnBook(Book book) {
+        if (!this.getMemberRecord().getBorrowedBooks().contains(book)) {
+            System.out.println(book.getTitle() + "does not exist in your borrowed list");
+            return;
+        }
+
+        this.getMemberRecord().removeFromBorrowedBooksList(book);
+        showBorrowedBooks();
     }
+
     public void showOwnedBooks() {
         if (ownedBooks.isEmpty()) {
             System.out.println(this.whoYouAre() + " does not own any books");
@@ -41,10 +47,13 @@ public class Reader extends Person{
             System.out.println((i + 1) + ". " + ownedBooks.get(i).getTitle());
         }
     }
-
     public void showBorrowedBooks() {
         if (this.getMemberRecord() == null) {
             System.out.println( this.whoYouAre() + " has no membership records.");
+            return;
+        }
+        if (this.getMemberRecord().getBorrowedBooks().isEmpty()) {
+            System.out.println( this.whoYouAre() + " has no books borrowed right now");
             return;
         }
         System.out.println("Reader " + this.whoYouAre() + " Currently borrowed the following books");
@@ -52,6 +61,7 @@ public class Reader extends Person{
             System.out.println((i + 1) + ". " + getMemberRecord().getBorrowedBooks().get(i).getTitle());
         }
     }
+
 
     // getters setters
     protected void setMemberRecord(MemberRecord memberRecord) {

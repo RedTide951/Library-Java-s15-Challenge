@@ -94,13 +94,13 @@ public class MemberRecord {
     }
     public void addToBorrowedBooksList(Book book) {
         this.borrowedBooks.add(book);
-        System.out.println(book + " has been added to " + this.getName() + "'s borrowed list");
+        System.out.println(book.getTitle() + " added to " + this.getName() + "'s borrowed list");
         this.totalDebt += 5.0;
-        System.out.println(this.getName() + " new debt " + this.getTotalDebt());
+        System.out.println(this.getName() + "'s new deposit " + this.getTotalDebt());
     }
     public void removeFromBorrowedBooksList(Book book) {
         this.borrowedBooks.remove(book);
-        System.out.println(book + " has been removed from " + this.getName() + "'s borrowed list");
+        System.out.println(book.getTitle() + " removed from " + this.getName() + "'s borrowed list");
         this.totalDebt -= 5.0;
         System.out.println(this.getName() + " new debt " + this.getTotalDebt());
     }

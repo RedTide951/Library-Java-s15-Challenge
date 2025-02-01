@@ -2,6 +2,8 @@ import com.library.books.Book;
 import com.library.books.BookStatus;
 import com.library.Library;
 import com.library.person.Author;
+import com.library.person.Librarian;
+import com.library.person.MembershipTypes;
 import com.library.person.Reader;
 
 import java.util.Scanner;
@@ -16,6 +18,8 @@ public class Main {
         Book testBook1 = new Book(12, testAuthor ,"testBook1", 15, BookStatus.AVAILABLE,2.0);
         Book testBook2 = new Book(13, testAuthor ,"testBook2", 15, BookStatus.AVAILABLE,2.0);
         Book testBook3 = new Book(14, testAuthor ,"testBook3", 15, BookStatus.AVAILABLE,2.0);
+        Book testBook4 = new Book(15, testAuthor ,"testBook4", 15, BookStatus.AVAILABLE,2.0);
+        Book testBook5 = new Book(16, testAuthor ,"testBook4", 15, BookStatus.AVAILABLE,2.0);
         testAuthor.showBooks();
         System.out.println("******************");
 
@@ -31,7 +35,7 @@ public class Main {
         Reader ali = new Reader("Ali");
         ali.showOwnedBooks();
         ali.showBorrowedBooks();
-        ali.receiveBook(testBook1);
+        ali.purchaseBook(testBook1);
         ali.showOwnedBooks();
         ali.loseBook(testBook1);
         System.out.println("******************");
@@ -46,6 +50,26 @@ public class Main {
         library1.sellBook(testBook3, ali);
         ali.showOwnedBooks();
         System.out.println("******************");
+
+        // Librarian Tests
+        System.out.println("---Librarian Tests---");
+        Librarian librarian1 = new Librarian("Librarian1", "password");
+        librarian1.searchBook(testBook2, library1);
+        librarian1.verifyMembership(ali, MembershipTypes.STUDENT, "35260 / ali's adress", 05325552535, library1);
+        librarian1.issueBook(testBook1, ali, library1);
+        librarian1.issueBook(testBook2, ali, library1);
+        librarian1.issueBook(testBook4, ali, library1);
+        library1.addNewBook(testBook4);
+        librarian1.issueBook(testBook4, ali, library1);
+        ali.showBorrowedBooks();
+        ali.returnBook(testBook5);
+        ali.returnBook(testBook1);
+        ali.returnBook(testBook2);
+        ali.returnBook(testBook4);
+        System.out.println("******************");
+
+        
+
 
     }
 }
