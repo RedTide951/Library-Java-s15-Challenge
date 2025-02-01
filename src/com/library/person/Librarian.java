@@ -1,8 +1,7 @@
-package com.library.authorizedPersonnel;
+package com.library.person;
 
 import com.library.Library;
 import com.library.books.Book;
-import com.library.person.Reader;
 
 public class Librarian {
 
@@ -18,12 +17,19 @@ public class Librarian {
         library.getBooksList().get(book.getBook_id());
         System.out.println(book + " exists in the " + library + " library.");
     }
-    public void verifyMembership(Reader reader, MembershipTypes types, String address, int phoneNumber) {
+    public void verifyMembership(Reader reader, MembershipTypes types, String address, int phoneNumber, Library library) {
         MemberRecord newRecord = new MemberRecord(reader.whoYouAre(), types, address, phoneNumber);
         reader.setMemberRecord(newRecord);
+        library.addNewReader(reader);
     }
-    public void issueBook(Book book, Reader borrower, Library library) {
-        library.lendBook(book, borrower);
+
+    public void issueBook(Book book, Reader reader, Library library) {
+        if (reader.getMemberRecord().getMaxBookLimit() > reader.getMemberRecord().getMaxBookLimit())
+        library.lendBook(book, reader);
+    }
+
+    public void fineCalculator(Reader reader) {
+
     }
 
 

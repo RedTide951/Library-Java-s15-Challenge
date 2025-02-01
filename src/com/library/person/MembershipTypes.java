@@ -1,4 +1,4 @@
-package com.library.authorizedPersonnel;
+package com.library.person;
 
 public enum MembershipTypes {
     STUDENT,

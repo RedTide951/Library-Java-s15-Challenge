@@ -15,6 +15,7 @@ public class Book {
     private LocalDate purchaseDate;
     private LocalDate returnDate;
     private Reader currentOwner;
+    private BookTypes bookType;
 
     public Book(long book_id, Author author, String name, double price, BookStatus status, double edition) {
         this.book_id = book_id;
@@ -23,6 +24,19 @@ public class Book {
         this.price = price;
         this.status = status;
         this.edition = edition;
+        this.bookType = BookTypes.JOURNAL;
+        System.out.println(name + "Created as a new book");
+    }
+
+    public Book(long book_id, Author author, String name, double price, BookStatus status, double edition, BookTypes bookType) {
+        this.book_id = book_id;
+        this.author = author.whoYouAre();
+        this.name = name;
+        this.price = price;
+        this.status = status;
+        this.edition = edition;
+        this.bookType = bookType;
+        System.out.println(name + "Created as a new book");
     }
 
     public long getBook_id() {

@@ -2,7 +2,7 @@ package com.library;
 
 import com.library.books.Book;
 import com.library.books.BookStatus;
-import com.library.authorizedPersonnel.Librarian;
+import com.library.person.Librarian;
 import com.library.person.Reader;
 
 import java.time.LocalDate;
@@ -13,16 +13,24 @@ public class Library {
     private Map<Long, Reader> readersList = new HashMap<>();
     private Map<Long, Book> booksList = new HashMap<>();
     private Map<Long, Librarian> librarianList = new HashMap<>();
+    private String libraryName;
 
-    public Library() {};
+    public Library(String libraryName) {
+        this.libraryName = libraryName;
+        System.out.println("New Library : " + this.getLibraryName());
+    };
 
     // add remove, reader & books
     public void addNewBook(Book book) {
         booksList.put(book.getBook_id(), book);
-        System.out.println("The Book " + book.getTitle() + " has been added to library records");
+        System.out.println(book.getTitle() + " has been added to " + this.getLibraryName());
     }
     public void addNewReader(Reader reader) {
-        readersList.put(reader.getReaderId(), reader);
+        if (reader.getMemberRecord() == null) {
+            System.out.println("Verify reader record first.");
+            return;
+        }
+        readersList.put(reader.getMemberRecord().getReaderId(), reader);
         System.out.println("New member " + reader.whoYouAre() + " successfully added");
     }
     public void removeReader(long readerId) {
@@ -49,92 +57,66 @@ public class Library {
     public Map<Long, Book> getBooksList() {
         return booksList;
     }
+    public Map<Long, Librarian> getLibrarianList() {
+        return librarianList;
+    }
 
     public void sellBook(Book book, Reader buyer) {
         if (!booksList.containsKey(book.getBook_id())) {
             System.out.println("Invalid book ID.");
             return;
         }
-
         if (book.getStatus() == BookStatus.UNAVAILABLE) {
             System.out.println("The book " + book.getTitle() + " is currently unavailable for purchase.");
             return;
         }
-
         book.changeOwner(buyer);
         book.setStatus(BookStatus.UNAVAILABLE);
-        booksList.remove(book.getBook_id()); // Remove from the library's collection
+        booksList.remove(book.getBook_id());
         buyer.receiveBook(book);
-
         System.out.println("The book " + book.getTitle() + " has been sold to " + buyer.whoYouAre());
     }
     public void lendBook(Book book, Reader borrower) {
-        if (!readersList.containsKey(borrower.getReaderId())) {
+        if (!readersList.containsKey(borrower.getMemberRecord().getReaderId())) {
             System.out.println(borrower.whoYouAre() + " is not authorized to borrow from this library");
             return;
         }
-
         if (!booksList.containsKey(book.getBook_id())) {
             System.out.println("Invalid book ID.");
             return;
         }
-
         if (book.getStatus() == BookStatus.UNAVAILABLE) {
             System.out.println("The book " + book.getTitle() + " is unavailable for borrowing right now.");
             return;
         }
-
         book.changeOwner(borrower);
         book.setStatus(BookStatus.UNAVAILABLE);
         book.setBorrowDate(LocalDate.now());
         borrower.receiveBook(book);
-
-        System.out.println("The book " + book.getTitle() + " has been lent to " + borrower.whoYouAre() + " on " + book.getBorrowDate());
+        borrower.getMemberRecord().addToBorrowedBooksList(book);
     }
     public void takeBookBack(Book book, Reader reader) {
-        if (!readersList.containsKey(reader.getReaderId())) {
+        if (!readersList.containsKey(reader.getMemberRecord().getReaderId())) {
             System.out.println("Reader not found.");
             return;
         }
-
         if (!booksList.containsKey(book.getBook_id())) {
             System.out.println("Book not found in library records.");
             return;
         }
-
         if (book.getCurrentOwner() != reader) {
             System.out.println("Reader does not own this book.");
             return;
         }
-
         reader.loseBook(book);
         book.changeOwner(null);
         book.setStatus(BookStatus.AVAILABLE);
         booksList.put(book.getBook_id(), book);
-        System.out.println("The book " + book.getTitle() + " has been taken back from " + reader.whoYouAre());
+        reader.getMemberRecord().removeFromBorrowedBooksList(book);
     }
-    public void returnBook(Book book, Reader reader) {
-        if (!readersList.containsKey(reader.getReaderId())) {
-            System.out.println("Reader not found.");
-            return;
-        }
 
-        if (!booksList.containsKey(book.getBook_id())) {
-            System.out.println("Book not found in library records.");
-            return;
-        }
 
-        if (book.getCurrentOwner() != reader) {
-            System.out.println("Reader does not own this book.");
-            return;
-        }
-
-        reader.getBooks().remove(book);
-
-        book.changeOwner(null);
-        book.setStatus(BookStatus.AVAILABLE);
-        book.setReturnDate(LocalDate.now());
-
-        System.out.println("The book " + book.getTitle() + " has been returned by " + reader.whoYouAre() + " on " + book.getReturnDate());
+    public String getLibraryName() {
+        return libraryName;
     }
 }
